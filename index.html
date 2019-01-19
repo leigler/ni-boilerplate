@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Template User Profile</title>
+	<link rel="stylesheet" type="text/css" href="build/style.css">
+	<script type="text/javascript" src="build/network-interfacing.js"></script>
+</head>
+<body>
+
+	<div id="profile"></div>
+	<div id="posts"></div>
+	<div id="followers"></div>
+
+	<div id="post_interface">
+		<hr>
+		<h2>Post</h2>
+		<form id="post_to">
+			<span>Title</span>
+			<input type="text" name="Title"><br><br>
+			<span>Content</span>
+			<textarea name="Content" rows="4" cols="50">
+			
+			</textarea><br><br>
+			<input type="submit" name="Post">
+		</form>
+	</div>
+
+<script type="text/javascript">
+		
+	window.onload = function(){  
+		console.log("test profile")
+		// doc elements
+		var profileContainer = document.getElementById("profile"),
+				postContainer = document.getElementById("posts"),
+				postSubmission = document.getElementById("post_to");
+
+		// dat vars
+		var url = window.location.toString(),
+				archive = new DatArchive(url)
+
+
+		loadProfile(archive)
+		.then(function(profile){
+			// console.log(profile)
+			var username = profile.username,
+					bio = profile.bio,
+					datUrl = profile.datUrl,
+					email = profile.email;
+
+			// append profile: 
+			profileContainer.innerHTML = `
+				<h1>${username}</h1>
+				<h2>${bio}</h2>
+				<h3>${datUrl}</h3>
+				<h3>${email}</h3>
+			`;
+		});
+
+		loadPosts(archive)
+		.then(function(posts){
+			posts.forEach(function(post){
+				loadPostContent(archive, post)
+				.then(function(post){
+					console.log("post", post)
+					postContainer.insertAdjacentHTML("beforeend", `
+						<hr />
+						<h2>${post.title}</h2>
+						<h4>${post.timestamp}</h4>
+						<p>${post.content}</p>
+					`)
+				})
+			})
+		});
+	
+
+		postSubmission.addEventListener("submit",function(e) {
+    	e.preventDefault(); // before the code
+    
+    	console.log(e)
+
+  	});
+		
+
+	};
+</script>
+</body>
+</html>
