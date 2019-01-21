@@ -8,58 +8,89 @@
 </head>
 <body>
 
+	<!-- your profile: -->
 	<div id="profile"></div>
+	<!-- your posts: -->
 	<div id="posts"></div>
-	<div id="followers"></div>
+	<hr><hr>
 
-	<div id="post_interface">
-		<hr>
-		<h2>Post</h2>
-		<form id="post_to">
-			<span>Title</span>
-			<input type="text" name="Title" value=""><br><br>
-			<span>Content</span>
-			<textarea name="Content" rows="4" cols="50" value="">
-			
-			</textarea><br><br>
-			<input type="submit" name="Post">
-		</form>
+	<div id="watching">
+		<!-- users you watch: -->
+		<h1>Other Users:</h1>
+		<ul id="watching_users"></ul>
 	</div>
+	<hr>
+	<hr>
+		
+	<ul id="central_list">
+		<!-- users from central list -->
+		<li>
+			<h1>Central list of users:</h1>
+		</li>
+	</ul>
+
+	<!-- interface for if you want to post: -->
+	<div id="post_interface"></div>
 
 <script type="text/javascript">
 		
 	window.onload = function(){  
-		console.log("test profile")
+		console.log("boilerplate profile")
 		// doc elements
 		var profileContainer = document.getElementById("profile"),
 				postContainer = document.getElementById("posts"),
-				postSubmission = document.getElementById("post_to");
+				watchingContainer = document.getElementById("watching"),
+				watchingList = document.getElementById("watching_users"),
+				postingInterface = document.getElementById("post_interface"),
+				centralListContainer = document.getElementById("central_list");
 
-		// dat vars
+		// dat vars for your personal page (automatically generated)
 		var url = window.location.toString(),
-				archive = new DatArchive(url)
+				archive = new DatArchive(url);
+
+		var classArchive = new DatArchive("CLASSHASHBASEURLHERE");
 
 
 		loadProfile(archive)
-		.then(function(profile){
-			// console.log(profile)
-			var username = profile.username,
-					bio = profile.bio,
-					datUrl = profile.datUrl,
-					email = profile.email;
+		.then(function(userInfo){
+			// append profile info: 
+			var username = userInfo.profile.username,
+					bio = userInfo.profile.bio,
+					datUrl = userInfo.profile.datUrl,
+					email = userInfo.profile.email;
 
-			// append profile: 
 			profileContainer.innerHTML = `
 				<h1>${username}</h1>
 				<h2>${bio}</h2>
 				<h3>${datUrl}</h3>
 				<h3>${email}</h3>
 			`;
+
+
+			var userCounter = 0, 
+					userList = userInfo.profile.users;
+			userAndTheirPosts(userCounter, userList, watchingContainer)
+
 		});
 
+
+		// once you've added the class dat url, you can uncomment this function to have a complete list: 
+
+		/*loadUsersCentral(classArchive, "/classList.json")
+		.then(function(userList){
+			console.log("userList", userList)
+
+			var userCounter = 0,
+					userList = userList.users;
+			usersProfiles(userCounter, userList, centralListContainer)
+
+		})*/
+
+
+		// load my posts
 		loadPosts(archive)
-		.then(function(posts){
-			posts.forEach(function(post){
+		.then(function(userPosts){
+			userPosts.posts.forEach(function(post){
 				loadPostContent(archive, post)
 				.then(function(post){
 					console.log("post", post)
@@ -73,11 +104,29 @@
 			})
 		});
 	
+		// if i'm the owner, reveal my interface: 
+		isOwner(archive)
+		.then(function(e){
+			if(e){
+				post_interface.insertAdjacentHTML("beforeend", `
+						<hr>
+						<h2>Post</h2>
+						<form id="post_to">
+							<p>Title</p>
+							<input type="text" name="Title" value=""><br><br>
+							<p>Content</p>
+							<textarea name="Content" rows="4" cols="50" value=""></textarea><br><br>
+							<input type="submit" name="Post">
+						</form>
+					`)
 
-		writePost(archive, postSubmission);
+				var postSubmission = document.getElementById("post_to");
+				writePost(archive, postSubmission);
 
-		
-
+			}else{
+				console.log("isOwner returns: ", e, "\n it looks like you are not the owner of this site");
+			}
+		})
 	};
 </script>
 </body>

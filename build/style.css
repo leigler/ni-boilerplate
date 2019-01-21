@@ -7,6 +7,10 @@ body, html, h1, h2, h3, h4, h5, h6, p, div, span, img, ul, li{
 	margin: 0;
 }
 
+ul, li{
+	list-style: none;
+}
+
 *{
 	box-sizing: border-box;
 	vertical-align: top;
