@@ -3,22 +3,22 @@
 
 ### features
 a list of available functions: 
-	- loadProfile
-		\nget profile object
-	- loadPosts 
-		\nget a list of a user's posts
-	- loadPostContent
-		\nget content of each post and append
-	- loadUsersCentral
-		\nget a list of users from an external source
-	- usersProfiles
-		\nuse a list of users and return their profile
-	- userAndTheirPosts
-		\nuse a list of users and return their profile + all their posts
-	- isOwner
-		\ncheck if you are the site's owner
-	- writePost
-		\nsubmit a post interface
+- `loadProfile(archive)`
+	- get profile object
+- `loadPosts(archive)` 
+	- get a list of a user's posts
+- `loadPostContent(archive, post)`
+	- get content of each post and append
+- `loadUsersCentral(archive, jsonName)`
+	- get a list of users from an external source
+- `usersProfiles(userCounter, userList, mountingContainer)`
+	- use a list of users and return their profile
+- `userAndTheirPosts(userCounter, userList, mountingContainer)`
+	- use a list of users and return their profile + all their posts
+- `isOwner(archive)`
+	- check if you are the site's owner
+- `writePost(archive, postSubmission)`
+	- submit a post interface
 
 
 ### reference
