@@ -1,4 +1,4 @@
-# network interfacing
+# [network interfacing](http://network-interfacing.teachinginter.net)
 ## boilerplate profile page
 
 The features outlined below are all built with the DatArchive API. Please review and become comfortable traversing the [documentation](https://beakerbrowser.com/docs/apis/dat) provided by the Beaker Browser website. 
