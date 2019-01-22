@@ -11,7 +11,7 @@ The features outlined below are all built with the DatArchive API. Please review
 4. add your directory
 5. edit `profile.json` to update your profile
 6. publish all changes
-7. add your `dat://` url to the class [spreadsheet](https://docs.google.com/spreadsheets/d/1VTTNBRftvCj-_L-M8hwBZuwXps4wBGrrRB6rER0Kqzc/edit?usp=sharing). 
+7. copy your `dat://` url to the class [spreadsheet](https://docs.google.com/spreadsheets/d/1VTTNBRftvCj-_L-M8hwBZuwXps4wBGrrRB6rER0Kqzc/edit?usp=sharing) and to your `profile.json` file. 
 8. once the spreadsheet is full, feel free to copy the urls and add them to your `post.json` file. 
 
 
@@ -118,7 +118,6 @@ These functions are a little more complex. You will have to enter the ` build/ne
 
 - `usersProfiles(userCounter, userList, mountingContainer)` : use a list of users and return their profile
 - `userAndTheirPosts(userCounter, userList, mountingContainer)` : use a list of users and return their profile + all their posts
-
 
 
 ### Posting Methods
