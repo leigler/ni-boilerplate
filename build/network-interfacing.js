@@ -73,20 +73,17 @@ function usersProfiles(userCounter, userList, profilesContainer){
 
 	loadProfile(userUrl)
 	.then(function(userInfo){
-		var username = userInfo.profile.username,
-				bio = userInfo.profile.bio,
-				email = userInfo.profile.email;
 
 		profilesContainer.insertAdjacentHTML("beforeend", `
 			<li>
 				<hr />
 				<h2>
 					<a href="${userInfo.archive.url}" target="_blank">
-						${username}
+						${userInfo.profile.username}
 					</a>
 				</h2>
-				<p>${bio}</p>
-				<h3>${email}</h3>
+				<p>${userInfo.profile.bio}</p>
+				<h3>${userInfo.profile.email}</h3>
 			</li>
 		`)
 
@@ -96,6 +93,9 @@ function usersProfiles(userCounter, userList, profilesContainer){
 			usersProfiles(userCounter, userList, profilesContainer) // move to next user
 		}
 
+	})
+	.catch(function(error){
+		console.log("error thrown\n", error)
 	})
 }
 
@@ -107,21 +107,18 @@ function userAndTheirPosts(userCounter, userList, watchingContainer){
 	// load user profile:
 	loadProfile(userUrl)
 	.then(function(userInfo){
-		var username = userInfo.profile.username,
-				bio = userInfo.profile.bio,
-				email = userInfo.profile.email,
-				userId = "user-" + userInfo.archive.url.replace("dat://", ""); // dynamically generated id to be populated later
+		var userId = "user-" + userInfo.archive.url.replace("dat://", ""); // dynamically generated id to be populated later
 
 		watchingContainer.insertAdjacentHTML("beforeend", `
 			<li>
 				<hr />
 				<h2>
 					<a href="${userInfo.archive.url}" target="_blank">
-						${username}
+						${userInfo.profile.username}
 					</a>
 				</h2>
-				<p>${bio}</p>
-				<h3>${email}</h3>
+				<p>${userInfo.profile.bio}</p>
+				<h3>${userInfo.profile.email}</h3>
 				<ul id="${userId}"></ul>
 			</li>
 		`)
@@ -167,7 +164,13 @@ function userAndTheirPosts(userCounter, userList, watchingContainer){
 					}
 				})
 			})
+		})
+		.catch(function(error){
+			console.log("error thrown\n", error)
 		}) //end of loadPosts.then
+	})
+	.catch(function(error){
+		console.log("error thrown\n", error)
 	})
 } // end of function
 

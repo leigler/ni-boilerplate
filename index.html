@@ -48,7 +48,6 @@
 		var url = window.location.toString(),
 				archive = new DatArchive(url);
 
-		var classArchive = new DatArchive("CLASSHASHBASEURLHERE");
 
 
 		loadProfile(archive)
@@ -66,7 +65,6 @@
 				<h3>${email}</h3>
 			`;
 
-
 			var userCounter = 0, 
 					userList = userInfo.profile.users;
 			userAndTheirPosts(userCounter, userList, watchingContainer)
@@ -76,15 +74,18 @@
 
 		// once you've added the class dat url, you can uncomment this function to have a complete list: 
 
-		/*loadUsersCentral(classArchive, "/classList.json")
+		/*
+		var classArchive = new DatArchive("CLASSHASHBASEURLHERE");
+
+		loadUsersCentral(classArchive, "/classList.json")
 		.then(function(userList){
 			console.log("userList", userList)
-
 			var userCounter = 0,
 					userList = userList.users;
 			usersProfiles(userCounter, userList, centralListContainer)
 
-		})*/
+		})
+		*/
 
 
 		// load my posts
