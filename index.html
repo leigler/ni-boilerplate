@@ -49,7 +49,6 @@
 				archive = new DatArchive(url);
 
 
-
 		loadProfile(archive)
 		.then(function(userInfo){
 			// append profile info: 
@@ -93,13 +92,13 @@
 		.then(function(userPosts){
 			userPosts.posts.forEach(function(post){
 				loadPostContent(archive, post)
-				.then(function(post){
-					console.log("post", post)
+				.then(function(postAndArchive){
+					console.log("post", postAndArchive.post)
 					postContainer.insertAdjacentHTML("beforeend", `
 						<hr />
-						<h2>${post.title}</h2>
-						<h4>${post.timestamp}</h4>
-						<p>${post.content}</p>
+						<h2>${postAndArchive.post.title}</h2>
+						<h4>${postAndArchive.post.timestamp}</h4>
+						<p>${postAndArchive.post.content}</p>
 					`)
 				})
 			})

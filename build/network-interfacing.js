@@ -51,7 +51,13 @@ async function loadPostContent(archive, post){
 	var postLink = '/posts/' + post.name;
 	// console.log(postLink)
 	var postContent = await archive.readFile(postLink)
-	return JSON.parse(postContent)
+	
+	var postAndArchive = {
+		"post" : JSON.parse(postContent),
+		"archive" : archive
+	}
+
+	return postAndArchive
 }
 
 async function loadUsersCentral(archive, fileName){
@@ -141,17 +147,25 @@ function userAndTheirPosts(userCounter, userList, watchingContainer){
 			userPosts.posts.forEach(function(post){
 				
 				loadPostContent(userUrl, post)
-				.then(function(post){
-					console.log("post\n", post)
-
+				.then(function(postAndArchive){
+					
+					var post = postAndArchive.post;
+					var thisPostContent = post.content;
+					
+					// rough image replacement: 
 					var userPostContainer = document.getElementById(userId) // dynamically generated id
+					if(JSON.stringify(post.content).includes('src=\\"')){
+						thisPostContent = JSON.stringify(thisPostContent).replace('src=\\"', 'src="' + postAndArchive.archive.url + "/");
+					}else if(JSON.stringify(post.content).includes("src=\\'")){						
+						thisPostContent = JSON.stringify(thisPostContent).replace("src=\\'", "src='" + postAndArchive.archive.url + "/");
+					}
 
 					userPostContainer.insertAdjacentHTML("beforeend", `
 						<li>
 							<hr />
 							<h2>${post.title}</h2>
 							<h4>${post.timestamp}</h4>
-							<p>${post.content}</p>
+							<div>${thisPostContent}</div>
 						</li>
 					`)
 

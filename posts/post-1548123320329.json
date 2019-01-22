@@ -1,0 +1,1 @@
+{"title":"a snake image test","timestamp":1548123320329,"content":"unfortunately, we don't have a nifty interface for embedding images. <br>\nthat being said, we can use image tags:\n<img style=\"width:200px;\" src=\"post-assets/rare-snake.jpg\"><br> but right now they're only local"}
