@@ -23,6 +23,8 @@
 	
 */
 
+/******************************************************************************/
+
 async function loadProfile(archive){
 	var profile = await archive.readFile('/profile.json')
 	profile = JSON.parse(profile)
@@ -35,6 +37,8 @@ async function loadProfile(archive){
 	return userInfo
 }
 
+/******************************************************************************/
+
 async function loadPosts(archive){
 	var posts = await archive.readdir('/posts/', {stat: true});
 	
@@ -44,8 +48,9 @@ async function loadPosts(archive){
 	}
 
 	return userPosts
-	// should return an posts as json of links/content
 }
+
+/******************************************************************************/
 
 async function loadPostContent(archive, post){
 	var postLink = '/posts/' + post.name;
@@ -60,6 +65,8 @@ async function loadPostContent(archive, post){
 	return postAndArchive
 }
 
+/******************************************************************************/
+
 async function loadUsersCentral(archive, fileName){
 	var getUserList = await archive.readFile(fileName);
 	getUserList = JSON.parse(getUserList)
@@ -71,6 +78,56 @@ async function loadUsersCentral(archive, fileName){
 
 	return userList;
 }
+
+/******************************************************************************/
+
+async function isOwner(archive){
+	var pageInfo = await archive.getInfo();
+	return pageInfo.isOwner;
+}
+
+/******************************************************************************/
+
+function writePost(archive, postSubmission){
+	var archive = archive;
+
+	// when someone clicks submit:
+	postSubmission.addEventListener("submit",function(e) {
+  	e.preventDefault(); // avoid default behavior
+  	var formRecieved = e.target,
+  			formTitle = formRecieved.elements["Title"].value.toString(),
+  			formContents = formRecieved.elements["Content"].value.toString(),
+  			timestamp = new Date().getTime();
+
+  	// set up object to submit to post:
+  	var postContent = {
+  		"title" : formTitle,
+  		"timestamp" : timestamp,
+  		"content" : formContents
+  	}
+
+  	// use archive (the DatArchive) to write a file
+  	async function postFile(archive, postContent){
+  		await archive.writeFile('/posts/post-' + postContent.timestamp + '.json', JSON.stringify(postContent));
+  	}
+
+  	postFile(archive, postContent)
+  	.then(function(event){
+  		console.log("post is posted!")
+  	})
+  	.catch(function(error){
+  		console.log("error\n", error)
+  	})
+	});
+}
+
+
+/******************************************************************************/
+/* RECURSIVE FUNCTIONS BELOW */
+/* https://en.wikipedia.org/wiki/Recursion_(computer_science) */
+/******************************************************************************/
+
+
 
 function usersProfiles(userCounter, userList, profilesContainer){
 	// recursive function listing all users
@@ -104,6 +161,8 @@ function usersProfiles(userCounter, userList, profilesContainer){
 		console.log("error thrown\n", error)
 	})
 }
+
+/******************************************************************************/
 
 function userAndTheirPosts(userCounter, userList, watchingContainer){
 	// get username from dat url
@@ -187,42 +246,3 @@ function userAndTheirPosts(userCounter, userList, watchingContainer){
 		console.log("error thrown\n", error)
 	})
 } // end of function
-
-
-async function isOwner(archive){
-	var pageInfo = await archive.getInfo();
-	return pageInfo.isOwner;
-}
-
-function writePost(archive, postSubmission){
-	var archive = archive;
-
-	// when someone clicks submit:
-	postSubmission.addEventListener("submit",function(e) {
-  	e.preventDefault(); // avoid default behavior
-  	var formRecieved = e.target,
-  			formTitle = formRecieved.elements["Title"].value.toString(),
-  			formContents = formRecieved.elements["Content"].value.toString(),
-  			timestamp = new Date().getTime();
-
-  	// set up object to submit to post:
-  	var postContent = {
-  		"title" : formTitle,
-  		"timestamp" : timestamp,
-  		"content" : formContents
-  	}
-
-  	// use archive (the DatArchive) to write a file
-  	async function postFile(archive, postContent){
-  		await archive.writeFile('/posts/post-' + postContent.timestamp + '.json', JSON.stringify(postContent));
-  	}
-
-  	postFile(archive, postContent)
-  	.then(function(event){
-  		console.log("post is posted!")
-  	})
-  	.catch(function(error){
-  		console.log("error\n", error)
-  	})
-	});
-}

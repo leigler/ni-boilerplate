@@ -1,11 +1,9 @@
 {
-	"username" : "lukas",
+	"username" : "yourUsername",
 	"bio" : "who are you?",
-	"datUrl"	: "",
-	"email" : "eigll343@newschool.edu",
+	"datUrl"	: "dat://yourdaturl",
+	"email" : "you@email.com",
 	"users" : [
-		"dat://c8b3651fe398809616411c2b7e71910cb847bfcd6926b76e33ef22cd29cd35c3/",
-		"dat://b926751306a491c40e7b436f969f97f30733501bb172dc9b79c5400849f20deb/",
-		"dat://6ef6cfbc33e1a4f0fd36351554d9ad402d8077e9b9d68614678b2e0145b88748/"
+		"dat://4678e847769d0a0848a2a70d51c5db1c3092e90ab11fd73785b19744c7a19b49/"
 	]
 }

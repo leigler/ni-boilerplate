@@ -16,7 +16,7 @@
 
 	<div id="watching">
 		<!-- users you watch: -->
-		<h1>Other Users:</h1>
+		<!-- <h1>Other Users:</h1> -->
 		<ul id="watching_users"></ul>
 	</div>
 	<hr>
@@ -25,7 +25,7 @@
 	<ul id="central_list">
 		<!-- users from central list -->
 		<li>
-			<h1>Central list of users:</h1>
+			<!-- <h1>Central list of users:</h1> -->
 		</li>
 	</ul>
 
@@ -45,9 +45,11 @@
 				centralListContainer = document.getElementById("central_list");
 
 		// dat vars for your personal page (automatically generated)
+		// var url = "dat://"
 		var url = window.location.toString(),
 				archive = new DatArchive(url);
 
+		/******************************************************************************/
 
 		loadProfile(archive)
 		.then(function(userInfo){
@@ -57,35 +59,23 @@
 					datUrl = userInfo.profile.datUrl,
 					email = userInfo.profile.email;
 
-			profileContainer.innerHTML = `
+			profileContainer.insertAdjacentHTML("beforeend", `
 				<h1>${username}</h1>
 				<h2>${bio}</h2>
 				<h3>${datUrl}</h3>
 				<h3>${email}</h3>
-			`;
+			`);
 
 			var userCounter = 0, 
 					userList = userInfo.profile.users;
-			userAndTheirPosts(userCounter, userList, watchingContainer)
+			
+			// usersProfiles(userCounter, userList, centralListContainer) // all users and a link to their site
+
+			// userAndTheirPosts(userCounter, userList, watchingContainer) // all users and their posts
 
 		});
 
-
-		// once you've added the class dat url, you can uncomment this function to have a complete list: 
-
-		/*
-		var classArchive = new DatArchive("CLASSHASHBASEURLHERE");
-
-		loadUsersCentral(classArchive, "/classList.json")
-		.then(function(userList){
-			console.log("userList", userList)
-			var userCounter = 0,
-					userList = userList.users;
-			usersProfiles(userCounter, userList, centralListContainer)
-
-		})
-		*/
-
+		/******************************************************************************/
 
 		// load my posts
 		loadPosts(archive)
@@ -104,6 +94,8 @@
 			})
 		});
 	
+		/******************************************************************************/
+
 		// if i'm the owner, reveal my interface: 
 		isOwner(archive)
 		.then(function(e){
@@ -127,6 +119,25 @@
 				console.log("isOwner returns: ", e, "\n it looks like you are not the owner of this site");
 			}
 		})
+
+
+		/******************************************************************************/
+
+		// once you've added the class dat url (below), you can uncomment this function to have a complete list sourced from our central files: 
+
+		/*
+		var classArchive = new DatArchive("CLASSHASHBASEURLHERE");
+
+		loadUsersCentral(classArchive, "/classList.json")
+		.then(function(userList){
+			console.log("userList", userList)
+			var userCounter = 0,
+					userList = userList.users;
+			usersProfiles(userCounter, userList, centralListContainer)
+
+		})
+		*/
+
 	};
 </script>
 </body>
